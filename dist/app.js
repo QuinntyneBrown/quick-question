@@ -47,7 +47,7 @@
 	"use strict";
 	var core_1 = __webpack_require__(1);
 	var app_1 = __webpack_require__(19);
-	var platform_browser_dynamic_1 = __webpack_require__(403);
+	var platform_browser_dynamic_1 = __webpack_require__(416);
 	if (app_1.environment.production) {
 	    core_1.enableProdMode();
 	}
@@ -10993,7 +10993,7 @@
 	}
 	__export(__webpack_require__(20));
 	__export(__webpack_require__(23));
-	__export(__webpack_require__(402));
+	__export(__webpack_require__(415));
 
 
 /***/ },
@@ -11064,12 +11064,12 @@
 	__webpack_require__(59);
 	var app_component_1 = __webpack_require__(20);
 	var actions_1 = __webpack_require__(77);
-	var components_1 = __webpack_require__(390);
-	var helpers_1 = __webpack_require__(392);
-	var pipes_1 = __webpack_require__(394);
+	var components_1 = __webpack_require__(403);
+	var helpers_1 = __webpack_require__(405);
+	var pipes_1 = __webpack_require__(407);
 	var services_1 = __webpack_require__(80);
-	var store_1 = __webpack_require__(366);
-	var routing_1 = __webpack_require__(396);
+	var store_1 = __webpack_require__(368);
+	var routing_1 = __webpack_require__(409);
 	var declarables = [
 	    app_component_1.AppComponent
 	].concat(routing_1.routedComponents);
@@ -31294,6 +31294,8 @@
 	}
 	__export(__webpack_require__(78));
 	__export(__webpack_require__(79));
+	__export(__webpack_require__(401));
+	__export(__webpack_require__(402));
 
 
 /***/ },
@@ -31342,66 +31344,66 @@
 	};
 	var core_1 = __webpack_require__(1);
 	var services_1 = __webpack_require__(80);
-	var store_1 = __webpack_require__(366);
-	var constants_1 = __webpack_require__(385);
-	var utilities_1 = __webpack_require__(370);
-	var PollActions = (function () {
-	    function PollActions(_pollService, _store) {
-	        this._pollService = _pollService;
+	var store_1 = __webpack_require__(368);
+	var constants_1 = __webpack_require__(387);
+	var utilities_1 = __webpack_require__(372);
+	var CustomerActions = (function () {
+	    function CustomerActions(_customerService, _store) {
+	        this._customerService = _customerService;
 	        this._store = _store;
 	    }
-	    PollActions.prototype.add = function (poll) {
+	    CustomerActions.prototype.add = function (customer) {
 	        var _this = this;
 	        var newGuid = utilities_1.guid();
-	        this._pollService.add(poll)
-	            .subscribe(function (poll) {
+	        this._customerService.add(customer)
+	            .subscribe(function (customer) {
 	            _this._store.dispatch({
-	                type: constants_1.POLL_ADD_SUCCESS,
-	                payload: poll
+	                type: constants_1.CUSTOMER_ADD_SUCCESS,
+	                payload: customer
 	            }, newGuid);
 	        });
 	        return newGuid;
 	    };
-	    PollActions.prototype.get = function () {
+	    CustomerActions.prototype.get = function () {
 	        var _this = this;
-	        return this._pollService.get()
-	            .subscribe(function (polls) {
+	        return this._customerService.get()
+	            .subscribe(function (customers) {
 	            _this._store.dispatch({
-	                type: constants_1.POLL_GET_SUCCESS,
-	                payload: polls
+	                type: constants_1.CUSTOMER_GET_SUCCESS,
+	                payload: customers
 	            });
 	            return true;
 	        });
 	    };
-	    PollActions.prototype.remove = function (options) {
+	    CustomerActions.prototype.remove = function (options) {
 	        var _this = this;
-	        return this._pollService.remove({ id: options.id })
-	            .subscribe(function (poll) {
+	        return this._customerService.remove({ id: options.id })
+	            .subscribe(function (customer) {
 	            _this._store.dispatch({
-	                type: constants_1.POLL_REMOVE_SUCCESS,
+	                type: constants_1.CUSTOMER_REMOVE_SUCCESS,
 	                payload: options.id
 	            });
 	            return true;
 	        });
 	    };
-	    PollActions.prototype.getById = function (options) {
+	    CustomerActions.prototype.getById = function (options) {
 	        var _this = this;
-	        return this._pollService.getById({ id: options.id })
-	            .subscribe(function (poll) {
+	        return this._customerService.getById({ id: options.id })
+	            .subscribe(function (customer) {
 	            _this._store.dispatch({
-	                type: constants_1.POLL_GET_SUCCESS,
-	                payload: [poll]
+	                type: constants_1.CUSTOMER_GET_SUCCESS,
+	                payload: [customer]
 	            });
 	            return true;
 	        });
 	    };
-	    PollActions = __decorate([
+	    CustomerActions = __decorate([
 	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [services_1.PollService, store_1.AppStore])
-	    ], PollActions);
-	    return PollActions;
+	        __metadata('design:paramtypes', [services_1.CustomerService, store_1.AppStore])
+	    ], CustomerActions);
+	    return CustomerActions;
 	}());
-	exports.PollActions = PollActions;
+	exports.CustomerActions = CustomerActions;
 
 
 /***/ },
@@ -31414,6 +31416,8 @@
 	}
 	__export(__webpack_require__(81));
 	__export(__webpack_require__(365));
+	__export(__webpack_require__(366));
+	__export(__webpack_require__(367));
 
 
 /***/ },
@@ -31434,54 +31438,54 @@
 	var http_1 = __webpack_require__(56);
 	var rxjs_1 = __webpack_require__(82);
 	var configuration_1 = __webpack_require__(363);
-	var PollService = (function () {
-	    function PollService(_http) {
+	var CustomerService = (function () {
+	    function CustomerService(_http) {
 	        this._http = _http;
 	    }
-	    PollService.prototype.add = function (entity) {
+	    CustomerService.prototype.add = function (entity) {
 	        return this._http
-	            .post(configuration_1.apiCofiguration.baseUrl + "/api/poll/add", entity)
+	            .post(configuration_1.apiCofiguration.baseUrl + "/api/customer/add", entity)
 	            .map(function (data) { return data.json(); })
 	            .catch(function (err) {
 	            return rxjs_1.Observable.of(false);
 	        });
 	    };
-	    PollService.prototype.get = function () {
+	    CustomerService.prototype.get = function () {
 	        return this._http
-	            .get(configuration_1.apiCofiguration.baseUrl + "/api/poll/get")
+	            .get(configuration_1.apiCofiguration.baseUrl + "/api/customer/get")
 	            .map(function (data) { return data.json(); })
 	            .catch(function (err) {
 	            return rxjs_1.Observable.of(false);
 	        });
 	    };
-	    PollService.prototype.getById = function (options) {
+	    CustomerService.prototype.getById = function (options) {
 	        return this._http
-	            .get(configuration_1.apiCofiguration.baseUrl + "/api/poll/getById?id=" + options.id)
+	            .get(configuration_1.apiCofiguration.baseUrl + "/api/customer/getById?id=" + options.id)
 	            .map(function (data) { return data.json(); })
 	            .catch(function (err) {
 	            return rxjs_1.Observable.of(false);
 	        });
 	    };
-	    PollService.prototype.remove = function (options) {
+	    CustomerService.prototype.remove = function (options) {
 	        return this._http
-	            .delete(configuration_1.apiCofiguration.baseUrl + "/api/poll/remove?id=" + options.id)
+	            .delete(configuration_1.apiCofiguration.baseUrl + "/api/customer/remove?id=" + options.id)
 	            .map(function (data) { return data.json(); })
 	            .catch(function (err) {
 	            return rxjs_1.Observable.of(false);
 	        });
 	    };
-	    Object.defineProperty(PollService.prototype, "baseUrl", {
+	    Object.defineProperty(CustomerService.prototype, "baseUrl", {
 	        get: function () { return configuration_1.apiCofiguration.baseUrl; },
 	        enumerable: true,
 	        configurable: true
 	    });
-	    PollService = __decorate([
+	    CustomerService = __decorate([
 	        core_1.Injectable(), 
 	        __metadata('design:paramtypes', [http_1.Http])
-	    ], PollService);
-	    return PollService;
+	    ], CustomerService);
+	    return CustomerService;
 	}());
-	exports.PollService = PollService;
+	exports.CustomerService = CustomerService;
 
 
 /***/ },
@@ -45758,6 +45762,142 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
+	var http_1 = __webpack_require__(56);
+	var rxjs_1 = __webpack_require__(82);
+	var configuration_1 = __webpack_require__(363);
+	var PollService = (function () {
+	    function PollService(_http) {
+	        this._http = _http;
+	    }
+	    PollService.prototype.add = function (entity) {
+	        return this._http
+	            .post(configuration_1.apiCofiguration.baseUrl + "/api/poll/add", entity)
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    PollService.prototype.get = function () {
+	        return this._http
+	            .get(configuration_1.apiCofiguration.baseUrl + "/api/poll/get")
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    PollService.prototype.getById = function (options) {
+	        return this._http
+	            .get(configuration_1.apiCofiguration.baseUrl + "/api/poll/getById?id=" + options.id)
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    PollService.prototype.remove = function (options) {
+	        return this._http
+	            .delete(configuration_1.apiCofiguration.baseUrl + "/api/poll/remove?id=" + options.id)
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    Object.defineProperty(PollService.prototype, "baseUrl", {
+	        get: function () { return configuration_1.apiCofiguration.baseUrl; },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    PollService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], PollService);
+	    return PollService;
+	}());
+	exports.PollService = PollService;
+
+
+/***/ },
+/* 366 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(1);
+	var http_1 = __webpack_require__(56);
+	var rxjs_1 = __webpack_require__(82);
+	var configuration_1 = __webpack_require__(363);
+	var QuestionService = (function () {
+	    function QuestionService(_http) {
+	        this._http = _http;
+	    }
+	    QuestionService.prototype.add = function (entity) {
+	        return this._http
+	            .post(configuration_1.apiCofiguration.baseUrl + "/api/question/add", entity)
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    QuestionService.prototype.get = function () {
+	        return this._http
+	            .get(configuration_1.apiCofiguration.baseUrl + "/api/question/get")
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    QuestionService.prototype.getById = function (options) {
+	        return this._http
+	            .get(configuration_1.apiCofiguration.baseUrl + "/api/question/getById?id=" + options.id)
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    QuestionService.prototype.remove = function (options) {
+	        return this._http
+	            .delete(configuration_1.apiCofiguration.baseUrl + "/api/question/remove?id=" + options.id)
+	            .map(function (data) { return data.json(); })
+	            .catch(function (err) {
+	            return rxjs_1.Observable.of(false);
+	        });
+	    };
+	    Object.defineProperty(QuestionService.prototype, "baseUrl", {
+	        get: function () { return configuration_1.apiCofiguration.baseUrl; },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    QuestionService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], QuestionService);
+	    return QuestionService;
+	}());
+	exports.QuestionService = QuestionService;
+
+
+/***/ },
+/* 367 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(1);
 	var common_1 = __webpack_require__(24);
 	var http_1 = __webpack_require__(56);
 	var providers = [];
@@ -45777,21 +45917,21 @@
 
 
 /***/ },
-/* 366 */
+/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(367));
-	__export(__webpack_require__(383));
-	__export(__webpack_require__(384));
-	__export(__webpack_require__(389));
+	__export(__webpack_require__(369));
+	__export(__webpack_require__(385));
+	__export(__webpack_require__(386));
+	__export(__webpack_require__(400));
 
 
 /***/ },
-/* 367 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -45805,9 +45945,9 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
-	var store_1 = __webpack_require__(368);
-	var utilities_1 = __webpack_require__(370);
-	var select_1 = __webpack_require__(382);
+	var store_1 = __webpack_require__(370);
+	var utilities_1 = __webpack_require__(372);
+	var select_1 = __webpack_require__(384);
 	var rxjs_1 = __webpack_require__(82);
 	var AppStore = (function () {
 	    function AppStore(_store) {
@@ -45858,11 +45998,11 @@
 
 
 /***/ },
-/* 368 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(55), __webpack_require__(1), __webpack_require__(369), __webpack_require__(3), __webpack_require__(348), __webpack_require__(285), __webpack_require__(38), __webpack_require__(156)) :
+	     true ? factory(exports, __webpack_require__(55), __webpack_require__(1), __webpack_require__(371), __webpack_require__(3), __webpack_require__(348), __webpack_require__(285), __webpack_require__(38), __webpack_require__(156)) :
 	    typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', '@angular/core', '@ngrx/core', 'rxjs/Observable', 'rxjs/operator/withLatestFrom', 'rxjs/operator/scan', 'rxjs/operator/observeOn', 'rxjs/scheduler/queue'], factory) :
 	    (factory((global.ngrx = global.ngrx || {}, global.ngrx.store = global.ngrx.store || {}),global.Rx,global.ng.core,global.ngrx.core,global.Rx,global.Rx.Observable,global.Rx.Observable.prototype,global.Rx.Observable.prototype,global.Rx.Scheduler));
 	}(this, (function (exports,rxjs_BehaviorSubject,_angular_core,_ngrx_core,rxjs_Observable,rxjs_operator_withLatestFrom,rxjs_operator_scan,rxjs_operator_observeOn,rxjs_scheduler_queue) { 'use strict';
@@ -46073,7 +46213,7 @@
 	})));
 
 /***/ },
-/* 369 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function (global, factory) {
@@ -46188,15 +46328,13 @@
 	})));
 
 /***/ },
-/* 370 */
+/* 372 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(371));
-	__export(__webpack_require__(372));
 	__export(__webpack_require__(373));
 	__export(__webpack_require__(374));
 	__export(__webpack_require__(375));
@@ -46206,10 +46344,12 @@
 	__export(__webpack_require__(379));
 	__export(__webpack_require__(380));
 	__export(__webpack_require__(381));
+	__export(__webpack_require__(382));
+	__export(__webpack_require__(383));
 
 
 /***/ },
-/* 371 */
+/* 373 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46229,7 +46369,7 @@
 
 
 /***/ },
-/* 372 */
+/* 374 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46242,7 +46382,7 @@
 
 
 /***/ },
-/* 373 */
+/* 375 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46254,7 +46394,7 @@
 
 
 /***/ },
-/* 374 */
+/* 376 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46267,7 +46407,7 @@
 
 
 /***/ },
-/* 375 */
+/* 377 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46281,7 +46421,7 @@
 
 
 /***/ },
-/* 376 */
+/* 378 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46295,7 +46435,7 @@
 
 
 /***/ },
-/* 377 */
+/* 379 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46312,7 +46452,7 @@
 
 
 /***/ },
-/* 378 */
+/* 380 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46327,7 +46467,7 @@
 
 
 /***/ },
-/* 379 */
+/* 381 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46343,7 +46483,7 @@
 
 
 /***/ },
-/* 380 */
+/* 382 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46356,7 +46496,7 @@
 
 
 /***/ },
-/* 381 */
+/* 383 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46375,7 +46515,7 @@
 
 
 /***/ },
-/* 382 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46404,7 +46544,7 @@
 
 
 /***/ },
-/* 383 */
+/* 385 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -46417,13 +46557,13 @@
 
 
 /***/ },
-/* 384 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var constants_1 = __webpack_require__(385);
-	var initial_state_1 = __webpack_require__(383);
-	var utilities_1 = __webpack_require__(370);
+	var constants_1 = __webpack_require__(387);
+	var initial_state_1 = __webpack_require__(385);
+	var utilities_1 = __webpack_require__(372);
 	exports.pollsReducer = function (state, action) {
 	    if (state === void 0) { state = initial_state_1.initialState; }
 	    switch (action.type) {
@@ -46451,32 +46591,25 @@
 
 
 /***/ },
-/* 385 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(386));
-	__export(__webpack_require__(387));
 	__export(__webpack_require__(388));
-
-
-/***/ },
-/* 386 */
-/***/ function(module, exports) {
-
-	"use strict";
-	exports.POLL_ADD_SUCCESS = "[Poll] Add Poll Success";
-
-
-/***/ },
-/* 387 */
-/***/ function(module, exports) {
-
-	"use strict";
-	exports.POLL_GET_SUCCESS = "[Poll] Get Poll Success";
+	__export(__webpack_require__(389));
+	__export(__webpack_require__(390));
+	__export(__webpack_require__(391));
+	__export(__webpack_require__(392));
+	__export(__webpack_require__(393));
+	__export(__webpack_require__(394));
+	__export(__webpack_require__(395));
+	__export(__webpack_require__(396));
+	__export(__webpack_require__(397));
+	__export(__webpack_require__(398));
+	__export(__webpack_require__(399));
 
 
 /***/ },
@@ -46484,11 +46617,99 @@
 /***/ function(module, exports) {
 
 	"use strict";
-	exports.POLL_REMOVE_SUCCESS = "[Poll] Remove Poll Success";
+	exports.CUSTOMER_ADD_SUCCESS = "[Customer] Add Customer Success";
 
 
 /***/ },
 /* 389 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.CUSTOMER_GET_SUCCESS = "[Customer] Get Customer Success";
+
+
+/***/ },
+/* 390 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.CUSTOMER_REMOVE_SUCCESS = "[Customer] Remove Customer Success";
+
+
+/***/ },
+/* 391 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.OPTION_ADD_SUCCESS = "[Option] Add Option Success";
+
+
+/***/ },
+/* 392 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.OPTION_GET_SUCCESS = "[Option] Get Option Success";
+
+
+/***/ },
+/* 393 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.OPTION_REMOVE_SUCCESS = "[Option] Remove Option Success";
+
+
+/***/ },
+/* 394 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.POLL_ADD_SUCCESS = "[Poll] Add Poll Success";
+
+
+/***/ },
+/* 395 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.POLL_GET_SUCCESS = "[Poll] Get Poll Success";
+
+
+/***/ },
+/* 396 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.POLL_REMOVE_SUCCESS = "[Poll] Remove Poll Success";
+
+
+/***/ },
+/* 397 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.QUESTION_ADD_SUCCESS = "[Question] Add Question Success";
+
+
+/***/ },
+/* 398 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.QUESTION_GET_SUCCESS = "[Question] Get Question Success";
+
+
+/***/ },
+/* 399 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.QUESTION_REMOVE_SUCCESS = "[Question] Remove Question Success";
+
+
+/***/ },
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46502,9 +46723,9 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
-	var ngrxStore = __webpack_require__(368);
-	var app_store_1 = __webpack_require__(367);
-	var initial_state_1 = __webpack_require__(383);
+	var ngrxStore = __webpack_require__(370);
+	var app_store_1 = __webpack_require__(369);
+	var initial_state_1 = __webpack_require__(385);
 	var providers = [
 	    app_store_1.AppStore
 	];
@@ -46525,18 +46746,174 @@
 
 
 /***/ },
-/* 390 */
+/* 401 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(1);
+	var services_1 = __webpack_require__(80);
+	var store_1 = __webpack_require__(368);
+	var constants_1 = __webpack_require__(387);
+	var utilities_1 = __webpack_require__(372);
+	var PollActions = (function () {
+	    function PollActions(_pollService, _store) {
+	        this._pollService = _pollService;
+	        this._store = _store;
+	    }
+	    PollActions.prototype.add = function (poll) {
+	        var _this = this;
+	        var newGuid = utilities_1.guid();
+	        this._pollService.add(poll)
+	            .subscribe(function (poll) {
+	            _this._store.dispatch({
+	                type: constants_1.POLL_ADD_SUCCESS,
+	                payload: poll
+	            }, newGuid);
+	        });
+	        return newGuid;
+	    };
+	    PollActions.prototype.get = function () {
+	        var _this = this;
+	        return this._pollService.get()
+	            .subscribe(function (polls) {
+	            _this._store.dispatch({
+	                type: constants_1.POLL_GET_SUCCESS,
+	                payload: polls
+	            });
+	            return true;
+	        });
+	    };
+	    PollActions.prototype.remove = function (options) {
+	        var _this = this;
+	        return this._pollService.remove({ id: options.id })
+	            .subscribe(function (poll) {
+	            _this._store.dispatch({
+	                type: constants_1.POLL_REMOVE_SUCCESS,
+	                payload: options.id
+	            });
+	            return true;
+	        });
+	    };
+	    PollActions.prototype.getById = function (options) {
+	        var _this = this;
+	        return this._pollService.getById({ id: options.id })
+	            .subscribe(function (poll) {
+	            _this._store.dispatch({
+	                type: constants_1.POLL_GET_SUCCESS,
+	                payload: [poll]
+	            });
+	            return true;
+	        });
+	    };
+	    PollActions = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [services_1.PollService, store_1.AppStore])
+	    ], PollActions);
+	    return PollActions;
+	}());
+	exports.PollActions = PollActions;
+
+
+/***/ },
+/* 402 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(1);
+	var services_1 = __webpack_require__(80);
+	var store_1 = __webpack_require__(368);
+	var constants_1 = __webpack_require__(387);
+	var utilities_1 = __webpack_require__(372);
+	var QuestionActions = (function () {
+	    function QuestionActions(_questionService, _store) {
+	        this._questionService = _questionService;
+	        this._store = _store;
+	    }
+	    QuestionActions.prototype.add = function (question) {
+	        var _this = this;
+	        var newGuid = utilities_1.guid();
+	        this._questionService.add(question)
+	            .subscribe(function (question) {
+	            _this._store.dispatch({
+	                type: constants_1.QUESTION_ADD_SUCCESS,
+	                payload: question
+	            }, newGuid);
+	        });
+	        return newGuid;
+	    };
+	    QuestionActions.prototype.get = function () {
+	        var _this = this;
+	        return this._questionService.get()
+	            .subscribe(function (questions) {
+	            _this._store.dispatch({
+	                type: constants_1.QUESTION_GET_SUCCESS,
+	                payload: questions
+	            });
+	            return true;
+	        });
+	    };
+	    QuestionActions.prototype.remove = function (options) {
+	        var _this = this;
+	        return this._questionService.remove({ id: options.id })
+	            .subscribe(function (question) {
+	            _this._store.dispatch({
+	                type: constants_1.QUESTION_REMOVE_SUCCESS,
+	                payload: options.id
+	            });
+	            return true;
+	        });
+	    };
+	    QuestionActions.prototype.getById = function (options) {
+	        var _this = this;
+	        return this._questionService.getById({ id: options.id })
+	            .subscribe(function (question) {
+	            _this._store.dispatch({
+	                type: constants_1.QUESTION_GET_SUCCESS,
+	                payload: [question]
+	            });
+	            return true;
+	        });
+	    };
+	    QuestionActions = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [services_1.QuestionService, store_1.AppStore])
+	    ], QuestionActions);
+	    return QuestionActions;
+	}());
+	exports.QuestionActions = QuestionActions;
+
+
+/***/ },
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(391));
+	__export(__webpack_require__(404));
 
 
 /***/ },
-/* 391 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46573,18 +46950,18 @@
 
 
 /***/ },
-/* 392 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(393));
+	__export(__webpack_require__(406));
 
 
 /***/ },
-/* 393 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46616,18 +46993,18 @@
 
 
 /***/ },
-/* 394 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(395));
+	__export(__webpack_require__(408));
 
 
 /***/ },
-/* 395 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46660,23 +47037,23 @@
 
 
 /***/ },
-/* 396 */
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(397));
+	__export(__webpack_require__(410));
 
 
 /***/ },
-/* 397 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var router_1 = __webpack_require__(26);
-	var pages_1 = __webpack_require__(398);
+	var pages_1 = __webpack_require__(411);
 	exports.routes = [
 	    {
 	        path: '',
@@ -46690,18 +47067,18 @@
 
 
 /***/ },
-/* 398 */
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(399));
+	__export(__webpack_require__(412));
 
 
 /***/ },
-/* 399 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -46722,8 +47099,8 @@
 	    };
 	    HomePageComponent = __decorate([
 	        core_1.Component({
-	            template: __webpack_require__(400),
-	            styles: [__webpack_require__(401)],
+	            template: __webpack_require__(413),
+	            styles: [__webpack_require__(414)],
 	            selector: "home-page",
 	            changeDetection: core_1.ChangeDetectionStrategy.OnPush
 	        }), 
@@ -46735,19 +47112,19 @@
 
 
 /***/ },
-/* 400 */
+/* 413 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"home-page\">\r\n    <h1>Home</h1>\r\n    <p>Generated by Leora!</p>\r\n</div>\r\n";
 
 /***/ },
-/* 401 */
+/* 414 */
 /***/ function(module, exports) {
 
 	module.exports = ""
 
 /***/ },
-/* 402 */
+/* 415 */
 /***/ function(module, exports) {
 
 	// The file for the current environment will overwrite this one during build
@@ -46760,7 +47137,7 @@
 
 
 /***/ },
-/* 403 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -46769,7 +47146,7 @@
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(404), __webpack_require__(1), __webpack_require__(25)) :
+	     true ? factory(exports, __webpack_require__(417), __webpack_require__(1), __webpack_require__(25)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/compiler', '@angular/core', '@angular/platform-browser'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.platformBrowserDynamic = global.ng.platformBrowserDynamic || {}),global.ng.compiler,global.ng.core,global.ng.platformBrowser));
 	}(this, function (exports,_angular_compiler,_angular_core,_angular_platformBrowser) { 'use strict';
@@ -46973,7 +47350,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 404 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
